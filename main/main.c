@@ -1,0 +1,30 @@
+
+#include <stdio.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_system.h"
+
+#include "driver/gpio.h"
+
+#include "portmacro.h"
+#include "FreeRTOSConfig.h"
+#include "sdkconfig.h"
+
+#define LED_GPIO_PIN 23 // GPIO pin for the LED
+
+void app_main(void)
+{
+    gpio_set_direction(LED_GPIO_PIN, GPIO_MODE_OUTPUT); // Set the GPIO pin as output
+    uint8_t sw = 0;
+
+    while (1)
+    {
+        gpio_set_level(LED_GPIO_PIN, sw); // Set the LED state
+        sw = !sw;                         // Toggle the state
+        // vTaskDelay(pdMS_TO_TICKS(1000));   // Delay for 1 second
+        vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay for 1 second
+
+        // Print the current state of the LED
+        printf("LED GPIO %d is %s\n", LED_GPIO_PIN, sw ? "ON" : "OFF");
+    }
+}
