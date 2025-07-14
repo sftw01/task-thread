@@ -12,6 +12,9 @@
 
 #define LED_GPIO_PIN 23 // GPIO pin for the LED
 
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+
 void app_main(void)
 {
     gpio_set_direction(LED_GPIO_PIN, GPIO_MODE_OUTPUT); // Set the GPIO pin as output
@@ -19,11 +22,11 @@ void app_main(void)
 
     while (1)
     {
-        gpio_set_level(LED_GPIO_PIN, sw); // Set the LED state
-        sw = !sw;                         // Toggle the state
+        gpio_set_level(LED_GPIO_PIN, sw);      // Set the LED state
+        sw = !sw;                              // Toggle the state
         vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay for 1 second
 
-        // Print the current state of the LED
-        printf("LED GPIO %d is %s\n", LED_GPIO_PIN, sw ? "ON" : "OFF");
+        const char *pinAsString = TOSTRING(LED_GPIO_PIN);
+        printf("LED GPIO %s (%d) is %s\n", pinAsString, LED_GPIO_PIN, sw ? "ON" : "OFF");
     }
 }
