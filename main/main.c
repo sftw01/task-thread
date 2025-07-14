@@ -21,7 +21,6 @@ void app_main(void)
     {
         gpio_set_level(LED_GPIO_PIN, sw); // Set the LED state
         sw = !sw;                         // Toggle the state
-        // vTaskDelay(pdMS_TO_TICKS(1000));   // Delay for 1 second
         vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay for 1 second
 
         // Print the current state of the LED
